@@ -36,6 +36,8 @@ class AFloatingText extends PluginBase implements Listener {
     
     public array $replace = [];
     
+    public array $particles = [];
+    
     public function onLoad(): void{
         self::setInstance($this);
     }
@@ -49,10 +51,12 @@ class AFloatingText extends PluginBase implements Listener {
         $this->register("{line}", "\n");
         
         foreach ($this->cfg->getAll() as $k => $v) {
-            $particle = new FloatingText($k, $v["text"]);
             if ($this->getServer()->getWorldManager()->getWorldByName($v["world"]) === null) continue;
-            $this->getServer()->getWorldManager()->getWorldByName($v["world"])->addParticle(new Vector3($v["x"], $v["y"], $v["z"]), $particle);
-            $this->update($particle);
+            $particle = new FloatingText($k, $v["text"]);
+            
+            $this->particles[] = $particle;
+            
+            $this->onRun();
         }
     }
     
@@ -77,7 +81,7 @@ class AFloatingText extends PluginBase implements Listener {
         }
         
         if (!$sender->hasPermission("aft.cmd")) {
-            $sender->sendMessage("§3--------AFloatingText--------\n§cAuthor: §fAstroKotlin\n§cVersion: ".$this->getDescription()->getVersion()."\nDescription: ".$this->getDescription()->getDescription()."\n Thanks for using!");
+            $sender->sendMessage("§3--------AFloatingText--------\n§cAuthor: §fAstroKotlin\n§cVersion: §f".$this->getDescription()->getVersion()."\n§cDescription: §f".$this->getDescription()->getDescription()."\n§eThanks for using!");
             return false;
         }
         
@@ -87,11 +91,16 @@ class AFloatingText extends PluginBase implements Listener {
             case 'help':
                 $sender->sendMessage("§eAFloatingText Commands:\n/ft create {id} - create a floating text\n/ft remove {id} - remove a floating text\n/ft info {id} - see info floating text\n/ft list - see list floating text");
             case 'plugin':
-                $sender->sendMessage("§3--------AFloatingText--------\n§cAuthor: §fAstroKotlin\n§cVersion: ".$this->getDescription()->getVersion()."\nDescription: ".$this->getDescription()->getDescription()."\n Thanks for using!");
+                $sender->sendMessage("§3--------AFloatingText--------\n§cAuthor: §fAstroKotlin\n§cVersion: §f".$this->getDescription()->getVersion()."\n§cDescription: §f".$this->getDescription()->getDescription()."\n§eThanks for using!");
             break;
             case 'info':
                 if (!isset($arg[1])) {
                     $sender->sendMessage("§cPlease input id Floating Text!");
+                    return false;
+                }
+                
+                if (!$this->getCfg()->exists($arg[1])) {
+                    $sender->sendMessage("§cFloating Text with id ".$arg[1]." does not exist!");
                     return false;
                 }
                 
@@ -120,6 +129,11 @@ class AFloatingText extends PluginBase implements Listener {
             case 'remove':
                 if (!isset($arg[1])) {
                     $sender->sendMessage("§cPlease input id Floating Text!");
+                    return false;
+                }
+                
+                if (!$this->getCfg()->exists($arg[1])) {
+                    $sender->sendMessage("§cFloating Text with id ".$arg[1]." does not exist!");
                     return false;
                 }
                 
@@ -152,32 +166,39 @@ class AFloatingText extends PluginBase implements Listener {
                 $this->getCfg()->createTextID((string)$this->dataCreate[$player->getName()]["id"], $this->dataCreate[$player->getName()]["text"], $pos->getWorld()->getFolderName(), $pos->getX(), $pos->getY() + $player->getEyeHeight(), $pos->getZ());
                 
                 $particle = new FloatingText((string)$this->dataCreate[$player->getName()]["id"], (string)$this->dataCreate[$player->getName()]["text"]);
-                $pos->getWorld()->addParticle(new Vector3($pos->getX(), $pos->getY() + $player->getEyeHeight(), $pos->getZ()), $particle);
+                $this->particles[] = $particle;
                 
                 $player->sendMessage("§aCreated new floating text with id §e".(string)$this->dataCreate[$player->getName()]["id"]."§a success!");
-                $this->update($particle);
                 
                 $ev->cancel();
             }
         }
     }
     
-    public function update(FloatingText $particle) {
-        Task::setInterval(function() use($particle) {
-            if (!$particle->existsId() or $particle->getWorld() == null) {
-                foreach ($this->getServer()->getOnlinePlayers() as $player) {
-                    $particle->remove($player);
+    public function onRun() {
+        Task::setInterval(function() {
+            $i = 0;
+            foreach ($this->particles as $particle) {
+                if (!$particle->existsId() or $particle->getWorld() == null) {
+                    foreach ($this->getServer()->getOnlinePlayers() as $player) {
+                        $particle->remove($player);
+                    }
+                    unset($this->particles[$i]);
+                    
+                    $this->getCfg()->remove($particle->getId());
+                    $this->getCfg()->save();
                     continue;
                 }
-            }
             
-            $text = str_replace(
-                array_merge($this->search, ["{rainbow}"]),
-                array_merge($this->replace, [rainbowText()]), $particle->getText());
+                $text = str_replace(
+                    array_merge($this->search, ["{rainbow}"]),
+                    array_merge($this->replace, [rainbowText()]), $particle->getText());
             
-            $particle->setText($text);
+                $particle->setText($text);
         
-            $particle->getWorld()->addParticle(new Vector3($particle->getX(), $particle->getY(), $particle->getZ()), $particle);
+                $particle->getWorld()->addParticle(new Vector3($particle->getX(), $particle->getY(), $particle->getZ()), $particle);
+                $i++;
+            }
         }, 1000);
     }
 }
