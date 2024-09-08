@@ -165,7 +165,7 @@ class AFloatingText extends PluginBase implements Listener {
     
     public function update(FloatingText $particle) {
         Task::setInterval(function() use($particle) {
-            if (!$particle->existsId() or is_null($particle->getWorld())) {
+            if (!$particle->existsId() or $particle->getWorld() == null) {
                 foreach ($this->getServer()->getOnlinePlayers() as $player) {
                     $particle->remove($player);
                     continue;
