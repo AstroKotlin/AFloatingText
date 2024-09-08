@@ -63,7 +63,6 @@ class AFloatingText extends PluginBase implements Listener {
     public function register(string $search, mixed $replace): bool {
         if (in_array($search, $this->search) or $search === "{rainbow}") {
             throw new \Exception("Tag $search has been registered! Registration is cancelled!");
-            return false;
         }
         $this->search[] = $search;
         $this->replace[] = $replace;
