@@ -6,7 +6,7 @@ main: AstroKotlin\AFloatingText\AFloatingText
 description: A Floating Text plugin for the PocketMine-MP server.
 commands:
  aft:
-  aliases: ["ft"]
+  aliases: ["afloatingtext", "ft"]
   description: Floating Text for server!
   permission: aft.cmd
 permissions:
