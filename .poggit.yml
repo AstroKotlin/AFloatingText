@@ -5,6 +5,7 @@ branches:
 projects:
   AFloatingText:
     path: ""
+    icon: icon.png
     libs:
       - src: VennDev/LibVapmPMMP/LibVapmPMMP
         version: ^2.5.6
