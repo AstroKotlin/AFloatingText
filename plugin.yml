@@ -1,0 +1,14 @@
+name: AFloatingText
+api: 5.0.0
+version: 1.0.0
+author: AstroKotlin
+main: AstroKotlin\AFloatingText\AFloatingText
+description: A Floating Text plugin for the PocketMine-MP server.
+commands:
+ aft:
+  aliases: ["ft"]
+  description: Floating Text for server!
+  permission: aft.cmd
+permissions:
+ aft.cmd:
+  default: true
