@@ -62,7 +62,7 @@ class AFloatingText extends PluginBase implements Listener {
     
     public function register(string $search, mixed $replace): bool {
         if (in_array($search, $this->search) or $search === "{rainbow}") {
-            throw new Exception("Tag $search has been registered! Registration is cancelled!");
+            throw new \Exception("Tag $search has been registered! Registration is cancelled!");
             return false;
         }
         $this->search[] = $search;
@@ -78,7 +78,7 @@ class AFloatingText extends PluginBase implements Listener {
         }
         
         if (!$sender->hasPermission("aft.cmd")) {
-            $player->sendMessage("§3--------AFloatingText--------\n§cAuthor: §fAstroKotlin\n§cVersion: ".$this->getDescription()->getVersion()."\nDescription: ".$this->getDescription()->getDescription()."\n Thanks for using!");
+            $sender->sendMessage("§3--------AFloatingText--------\n§cAuthor: §fAstroKotlin\n§cVersion: ".$this->getDescription()->getVersion()."\nDescription: ".$this->getDescription()->getDescription()."\n Thanks for using!");
             return false;
         }
         
@@ -127,7 +127,7 @@ class AFloatingText extends PluginBase implements Listener {
                 $this->getCfg()->remove($arg[1]);
                 $this->getCfg()->save();
                 
-                $sender->sendMessage("§c Successfully removed Floating Text id ".$arg[1]);
+                $sender->sendMessage("§aSuccessfully removed Floating Text id ".$arg[1]);
             break;
             case 'list':
                 $ids = "";
