@@ -34,7 +34,7 @@ class FloatingText extends FloatingTextParticle {
         return AFloatingText::getInstance()->getCfg()->getNested($this->getId().".world");
     }
     
-    public function getWorld(): World {
+    public function getWorld(): ?World {
         return AFloatingText::getInstance()->getServer()->getWorldManager()->getWorldByName($this->getWorldName());
     }
 
