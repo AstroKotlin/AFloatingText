@@ -22,3 +22,5 @@ $search = "{tag}";
 $replace = "Hello world";
 AFloatingText::getInstance()->register($search, $replace);
 ```
+
+Thanks for using :3
