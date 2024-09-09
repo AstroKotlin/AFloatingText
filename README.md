@@ -1,6 +1,5 @@
 # AFloatingText
 [![](https://poggit.pmmp.io/shield.state/AFloatingText)](https://poggit.pmmp.io/p/AFloatingText)
-<a href="https://poggit.pmmp.io/p/AFloatingText"><img src="https://poggit.pmmp.io/shield.state/AFloatingText"></a>
 <br>
 A custom FloatingText plugin in the PocketMine-MP server.
 ## 🛠️|Commands
