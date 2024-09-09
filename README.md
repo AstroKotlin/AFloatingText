@@ -1,5 +1,5 @@
 # AFloatingText
-[![Poggit-CI](https://poggit.pmmp.io/ci.shield/AstroKotlin/AstroKotlin/AFloatingText)](https://poggit.pmmp.io/ci/Ifera/ScoreHud/ScoreHud)
+[![Poggit-CI](https://poggit.pmmp.io/ci.shield/AstroKotlin/AstroKotlin/AFloatingText)](https://poggit.pmmp.io/ci/AstroKotlin/AstroKotlin/AFloatingText)
 A custom FloatingText plugin in the PocketMine-MP server.
 ## 🛠️|Commands
 `/ft create {id}` - Create a Floating Text
