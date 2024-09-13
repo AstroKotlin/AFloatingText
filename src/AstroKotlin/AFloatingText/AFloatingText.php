@@ -55,9 +55,8 @@ class AFloatingText extends PluginBase implements Listener {
             $particle = new FloatingText($k, $v["text"]);
             
             $this->particles[] = $particle;
-            
-            $this->onRun();
         }
+        $this->onRun();
     }
     
     public function getCfg(): Data {
