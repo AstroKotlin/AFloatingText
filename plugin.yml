@@ -8,7 +8,7 @@ commands:
  aft:
   aliases: ["afloatingtext", "ft"]
   description: Floating Text for server!
-  permission: aft.cmd
+  permission: afloatingtext.cmd
 permissions:
- aft.cmd:
+ afloatingtext.cmd:
   default: true
