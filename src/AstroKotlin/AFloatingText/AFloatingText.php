@@ -115,7 +115,7 @@ class AFloatingText extends PluginBase implements Listener {
                 }
                 
                 if ($this->getCfg()->exists($arg[1])) {
-                    $sender->sendMessage("§c Floating text id ".$arg[1]." already exists, please choose another id!");
+                    $sender->sendMessage("§cFloating text id ".$arg[1]." already exists, please choose another id!");
                     return false;
                 }
                 
@@ -150,6 +150,50 @@ class AFloatingText extends PluginBase implements Listener {
                 
                 $sender->sendMessage("§fList of FloatingText ids in server:\n".$ids);
             break;
+            case 'tp':
+            case 'teleport':
+                if (!isset($arg[1])) {
+                    $sender->sendMessage("§cPlease input id Floating Text!");
+                    return false;
+                }
+
+                if (!$this->getCfg()->exists($arg[1])) {
+                    $sender->sendMessage("§cFloating Text with id ".$arg[1]." does not exist!");
+                    return false;
+                }
+
+                if (!isset($arg[2]) or !isset($arg[3]) or !isset($arg[4])) {
+                    $sender->sendMessage("You have recorded the wrong coordinates!");
+                    return false;
+                }
+
+                if (is_null($this->getServer()->getWorldManager()->getWorldByName($arg[5]))) {
+                    $sender->sendMessage("World {$arg[5]} does not exist");
+                    return false;
+                }
+
+                $this->getCfg()->setNested($arg[1].".x", $arg[2]);
+                $this->getCfg()->setNested($arg[1].".y", $arg[3]);
+                $this->getCfg()->setNested($arg[1].".z", $arg[4]);
+                $this->getCfg()->setNested($arg[1].".world", $arg[5]);
+                $this->getCfg()->save();
+            break;
+            case 'tphere':
+                if (!isset($arg[1])) {
+                    $sender->sendMessage("§cPlease input id Floating Text!");
+                    return false;
+                }
+
+                if (!$this->getCfg()->exists($arg[1])) {
+                    $sender->sendMessage("§cFloating Text with id ".$arg[1]." does not exist!");
+                    return false;
+                }
+
+                $this->getCfg()->setNested($arg[1].".x", $sender->getPosition()->getX());
+                $this->getCfg()->setNested($arg[1].".y", $sender->getPosition()->getY());
+                $this->getCfg()->setNested($arg[1].".z", $sender->getPosition()->getZ());
+                $this->getCfg()->setNested($arg[1].".world", $sender->getPosition()->getWorld());
+                $this->getCfg()->save();
         }
         return true;
     }
