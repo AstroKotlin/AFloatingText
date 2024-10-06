@@ -15,7 +15,7 @@ A custom FloatingText plugin in the PocketMine-MP server.
 
 `/ft tp {id} {x} {y} {z} {world}` - Moves a FloatingText to a specified coordinate
 
-`/ft tphere` - Move FloatingText to where you are standing
+`/ft tphere {id}` - Move FloatingText to where you are standing
 ## 🧑‍💻|Developer
 Import AFloatingText path:
 ```php
