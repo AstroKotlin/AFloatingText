@@ -79,7 +79,7 @@ class AFloatingText extends PluginBase implements Listener {
             return false;
         }
         
-        if (!$sender->hasPermission("aft.cmd")) {
+        if (!$sender->hasPermission("afloatingtext.cmd")) {
             $sender->sendMessage("§3--------AFloatingText--------\n§cAuthor: §fAstroKotlin\n§cVersion: §f".$this->getDescription()->getVersion()."\n§cDescription: §f".$this->getDescription()->getDescription()."\n§eThanks for using!");
             return false;
         }
